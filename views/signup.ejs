@@ -1,15 +1,61 @@
 <% include partials/header %>
 
-
+    <% if(errors) { %>
+      <div class="row">
+        <div class="col-md-6 errorBlock">
+          <% for(var item in errors) { %>
+            <strong><h6><%= item %></h6></strong>
+            <ul>
+            <% for(var i = 0; i < errors[item].messages.length; i++) { %>
+                <li>
+                  <i>
+                    <%= errors[item].messages[i] %>
+                  </i>
+                </li>
+            <% } %>
+            </ul>
+          <% } %>
+        </div>
+      </div>
+    <% } %>
 
     <form class="" action="/signup" method="post">
-      <%# Add form validations for:
-      Username: Required. Must be more than 6 characters, must start with a letter, and no punctuation.
-      Password: Required. Must be more than 8 characters with atleast One letter, one number, and one special character (!?/.,')
-      Email: Required. Must be formatted like an email, (something @ something . something)
-      First Name: Required.
-      Last Name: Required.
-      Phone Number: Required. Must be a 10 digit number formatted like: 999-888-9898%>
+        <%# Add form validations for:
+        Username: Required. Must be more than 6 characters, must start with a letter, and no punctuation.
+        Password: Required. Must be more than 8 characters with atleast One letter, one number, and one special character (!?/.,')
+        Email: Required. Must be formatted like an email, (something @ something . something)
+        First Name: Required.
+        Last Name: Required.
+        Phone Number: Required. Must be a 10 digit number formatted like: 999-888-9898%>
+        <% if (!user) { %>
+            <label for="username">Username</label>
+                <input type="text" name="username">
+            <label for="password">Password</label>
+                <input type="password" name="password">
+            <label for="email">Email Address</label>
+                <input type="email" name="email">
+            <label for="first_name">First Name</label>
+                <input type="text" name="first_name">
+            <label for="last_name">Last Name</label>
+                <input type="text" name="last_name">
+            <label for="phone_number">Phone Number (10 digits)</label>
+                <input type="text" name="phone_number">
+        <% } else { %>
+            <label for="username">Username</label>
+                <input type="text" name="username" value="<%= user.username %>">
+            <label for="password">Password</label>
+                <input type="password" name="password">
+            <label for="email">Email Address</label>
+                <input type="email" name="email" value="<%= user.email %>">
+            <label for="first_name">First Name</label>
+                <input type="text" name="first_name" value="<%= user.first_name %>">
+            <label for="last_name">Last Name</label>
+                <input type="text" name="last_name" value="<%= user.last_name %>">
+            <label for="phone_number">Phone Number (10 digits)</label>
+                <input type="text" name="phone_number" value="<%= user.phone_number %>">
+        <% } %>
+
+        <button type="submit">Submit</button>
 
     </form>
 
