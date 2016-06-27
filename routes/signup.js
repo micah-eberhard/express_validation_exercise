@@ -3,6 +3,8 @@
 var express = require('express');
 var router = express.Router();
 
+var validator = require('../validator');
+
 // Write your form and validations inside this route file.
 
 
@@ -19,21 +21,58 @@ var router = express.Router();
 
 router.get('/', function(req, res){
   // Handle initial rendering here.
-  res.render('signup', {});
+  res.render('signup', {errors: null, user:null});
 });
 
 router.post('/', function(req, res){
-  // Handle rendering / redirecting here.
+    // Handle rendering / redirecting here.
+    var user = req.body;
+    var errors = {};
+    var hasError = false;
 
-  // If there arent any validation errors, redirect to '/'
+    var validated_username = validator.username(user.username);
+    if (!validated_username.isValid) {
+        errors.Username = validated_username;
+        hasError = true;
+    }
 
-  // If there are validation errors, re-render the signup page, injecting the users previous inputs.
-  res.render('signup', {});
+    var validated_password = validator.password(user.password);
+    if (!validated_password.isValid) {
+        errors.Password = validated_password;
+        hasError = true;
+    }
 
+    var validated_email = validator.email(user.email);
+    if (!validated_email.isValid) {
+        errors.Email = validated_email;
+        hasError = true;
+    }
+
+    var valdated_first_name = validator.first_name(user.first_name);
+    if (!valdated_first_name.isValid) {
+        errors['First Name'] = valdated_first_name;
+        hasError = true;
+    }
+
+    var valdated_last_name = validator.last_name(user.last_name);
+    if (!valdated_last_name.isValid) {
+        errors['Last Name'] = valdated_last_name;
+        hasError = true;
+    }
+
+    var validated_phone_number = validator.phone_number(user.phone_number);
+    if (!validated_phone_number.isValid) {
+        errors['Phone Number'] = validated_phone_number;
+        hasError = true;
+    }
+
+    if (hasError) {
+        res.render('signup', {errors: errors, user: user});
+    } else {
+        res.redirect('/');
+    }
 });
 
-
-// PRO-TIP: Write ALOT of functions to help you handle each little piece.
 
 
 module.exports = router;
