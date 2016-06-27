@@ -4,13 +4,43 @@
 
     <form class="" action="/signup" method="post">
       <%# Add form validations for:
-      Username: Required. Must be more than 6 characters, must start with a letter, and no punctuation.
-      Password: Required. Must be more than 8 characters with atleast One letter, one number, and one special character (!?/.,')
-      Email: Required. Must be formatted like an email, (something @ something . something)
-      First Name: Required.
-      Last Name: Required.
-      Phone Number: Required. Must be a 10 digit number formatted like: 999-888-9898%>
-
+      Username: Required. Must be more than 6 characters, must start with a letter, and no punctuation.%>
+      <label>Username:</label>
+      <input style = "background-color: <%=background.username%>;" type = "text" id = "username" name = "username" value = "<%= input.username %>"/>
+      <% if(error.username){%>
+        <p><%=error.username%></p>
+      <%}%>
+      <br><label>Password:</label>
+      <input style = "background-color: <%=background.password%>;" type = "text" id = "password" name = "password" value = "<%= input.password %>"/>
+      <% if(error.password){%>
+        <p><%=error.password%></p>
+      <%}%>
+      <br><label>E-mail:</label>
+      <input style = "background-color: <%=background.email%>;" type = "text" id = "email" name = "email" value = "<%= input.email %>"/>
+      <% if(error.email){%>
+        <p><%=error.email%></p>
+      <%}%>
+      <br><label>First Name:</label>
+      <input style = "background-color: <%=background.firstName%>;" type = "text" id = "firstName" name = "firstName" value = "<%= input.firstName %>"/>
+      <% if(error.firstName){%>
+        <p><%=error.firstName%></p>
+      <%}%>
+      <br><label>Last Name:</label>
+      <input style = "background-color: <%=background.lastName%>;" type = "text" id = "lastName" name = "lastName" value = "<%= input.lastName %>"/>
+      <% if(error.lastName){%>
+        <p><%=error.lastName%></p>
+      <%}%>
+      <br><label>Phone Number:</label>
+      <input style = "background-color: <%=background.phoneNumber%>;" type = "text" id = "phoneNumber" name = "phoneNumber" value = "<%= input.phoneNumber %>"/>
+      <% if(error.phoneNumber){%>
+        <p><%=error.phoneNumber%></p>
+      <%}%>
+      <%# Password: Required. Must be more than 8 characters with atleast One letter, one number, and one special character (!?/.,')%>
+      <%# Email: Required. Must be formatted like an email, (something @ something . something)%>
+      <%# First Name: Required.%>
+      <%# Last Name: Required.%>
+      <%# Phone Number: Required. Must be a 10 digit number formatted like: 999-888-9898%>
+<br><button type = "submit">Submit</submit>
     </form>
 
 
