@@ -19,21 +19,105 @@ var router = express.Router();
 
 router.get('/', function(req, res){
   // Handle initial rendering here.
-  res.render('signup', {});
+  res.render('signup', {
+    hasError: false,
+    username: '',
+    // Password:'',
+    // Email: '',
+    // First_Name:'',
+    // Last_Name:'',
+    // Phone_Number:''
+  });
 });
 
 router.post('/', function(req, res){
-  // Handle rendering / redirecting here.
+  // Handle rendering  redirecting here.
+  var infoObj= checkData(req);
+  if (infoObj.hasError){
 
-  // If there arent any validation errors, redirect to '/'
-
-  // If there are validation errors, re-render the signup page, injecting the users previous inputs.
-  res.render('signup', {});
-
+    res.render('signup', infoObj);
+  }
+  else{
+res.redirect('/');
+}
 });
 
 
 // PRO-TIP: Write ALOT of functions to help you handle each little piece.
+function checkData(req){
+  var info={
+    hasError : false
+  };
+  info.error={};
+  checkRequired(info, req);
+  checkUsername(info, req);
+  return info;
+}
+
+function checkUsername(info, req){
+  info.username = req.body.username;
+  if(!info.error.username){
+    info.error.username=[];
+  }
+
+  if(req.body.username.length <= 6){
+    //make error
+    // need this created only if it does not exist come back to this
+    info.hasError=true;
+    info.error.username.push({message : "username is too short!"});
+
+  }
+  if(req.body.username){
+  var regex= /[A-Za-z]/;
+  if(!req.body.username[0].match(regex)){
+    info.hasError=true;
+  info.error.username.push({message: "username Must start with a letter (a-z)"});
+}
+  regex = /\W/g;
+  if(req.body.username.match(regex)){
+    info.hasError=true;
+    info.error.username.push({message:"username must be alphanumberic"});
+  }
+}
+}
+
+function checkRequired(info, req){
+  for(var item in req.body){
+    if(req.body[item].length <= 0)
+    {
+      if(!info.error[item])
+      {
+        info.error[item]=[];
+      }
+      info.hasError=true;
+      info.error[item].push({message : item + " is required"});
+    }
+  }
+}
+//need to make an empty error array to push into
+// function checkPhone(info, req){
+//   console.log(req.body);
+//   var phonearray=req.body.phoneNumber.split("-");
+//   if (phonearray.length!== 3){
+//     info.hasError = true;
+//     info.error.phoneNumber.push({message : "phone number is invalid make sure it is formatted like ###-###-####"});
+//   }
+//   if(phonearray[0].length===3&& phonearray[1].length===3 && phonearray[2].length===4){
+//     if(isNaN(phonearray[0])|| isNaN(phonearray[1])|| isNaN(phonearray[2])){
+//       info.hasError = true;
+//       info.error.phoneNumber.push({message : "please only numbers and dashes in phone number"});
+//     }
+//     else{
+//       info.phoneNumber= req.body.phoneNumber;
+//     }
+//
+//   }
+//   else{
+//     info.hasError =true;
+//     info.error.phoneNumber.push({message: "phone number is the incorrect length"});
+//   }
+// }
+
 
 
 module.exports = router;
