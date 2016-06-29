@@ -10,8 +10,19 @@
       First Name: Required.
       Last Name: Required.
       Phone Number: Required. Must be a 10 digit number formatted like: 999-888-9898%>
-
+      <%# <label for="phoneNumber" > phone number
+      <input type="text" name="phoneNumber" >
+    </label> %>
+    <input type="text" name="username" value="<%= username %>" placeholder="username">
+      <button type="submit">Register</button>
     </form>
-
-
+<% if(hasError) { %>
+  <%  for (var items in error){ %>
+<% for(var i =0; i<error[items].length; i++){  %>
+  <p>
+    <%= error[items][i].message %>
+  </p>
+  <% } %>
+  <% } %>
+ <% } %>
 <% include partials/footer %>
